@@ -17,7 +17,7 @@ Simple web service providing CRUD-style API access to a DBMS.
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/apollocodechallenge.git
+   git clone https://github.com/VarijaM/apollocodechallenge.git
    cd apollocodechallenge
 
 2. Install the dependencies:
