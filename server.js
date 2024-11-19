@@ -1,3 +1,4 @@
+// Importing Required Modules
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
@@ -6,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 // Creating an Express Application
 const app = express();
 
+// Handling JSON Parsing and JSON Format
 app.use(express.json({
     verify: (req, res, buf, encoding) => {
         try {
@@ -35,6 +37,7 @@ const pool = new Pool({
     port: 5432,
 });
 
+// GET: Retrieve all vehicles from the database 
 app.get('/vehicle', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM Vehicle');
@@ -44,27 +47,26 @@ app.get('/vehicle', async (req, res) => {
     }
 });
 
-app.post('/vehicle',
-    async (req, res) => {
+// POST: Add a new vehicle to the database 
+app.post('/vehicle', async (req, res) => {
+    const { vin, manufacturer_name, description, horse_power, model_name, model_year, purchase_price, fuel_type } = req.body;
 
-        const { vin, manufacturer_name, description, horse_power, model_name, model_year, purchase_price, fuel_type } = req.body;
-
-        try {
-            const parsedUserData =
-                JSON.parse(JSON.stringify(req.body));
-            if(Object.keys(parsedUserData).length === 0)
-                return res.status(400).json({ error: 'Invalid JSON format in request body.' });
-
-        } catch (err)
-        {
+    try {
+        const parsedUserData =
+            JSON.parse(JSON.stringify(req.body));
+        if(Object.keys(parsedUserData).length === 0)
             return res.status(400).json({ error: 'Invalid JSON format in request body.' });
 
-        }
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid JSON format in request body.' });
+
+    }
 
     if (!vin || !manufacturer_name || !model_name || !model_year || !purchase_price || !fuel_type) {
         return res.status(422).json({ error: 'Missing or invalid fields in the request body.' });
     }
 
+    // Inserts new vehicle into the database 
     try {
         const result = await pool.query(
             'INSERT INTO Vehicle (vin, manufacturer_name, description, horse_power, model_name, model_year, purchase_price, fuel_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
@@ -76,7 +78,7 @@ app.post('/vehicle',
     }
 });
 
-
+// GET: Retrieve a vehicle by its VIN
 app.get('/vehicle/:vin', async (req, res) => {
     const { vin } = req.params;
     try {
@@ -88,20 +90,22 @@ app.get('/vehicle/:vin', async (req, res) => {
     }
 });
 
+// PUT: Updates a vehicle's details by its VIN
 app.put('/vehicle/:vin', async (req, res) => {
     const { vin } = req.params;
     const { manufacturer_name, description, horse_power, model_name, model_year, purchase_price, fuel_type } = req.body;
+    
     try {
         const parsedUserData =
             JSON.parse(JSON.stringify(req.body));
         if(Object.keys(parsedUserData).length === 0)
             return res.status(400).json({ error: 'Invalid JSON format in request body.' });
 
-    }catch (err)
-    {
+    } catch (err) {
         return res.status(400).json({ error: 'Invalid JSON format in request body.' });
 
     }
+    
     if (!manufacturer_name || !model_name || !model_year || !purchase_price || !fuel_type) {
         return res.status(422).json({ error: 'Missing or invalid fields in the request body.' });
     }
@@ -118,6 +122,7 @@ app.put('/vehicle/:vin', async (req, res) => {
     }
 });
 
+// DELETE: Remove a vehicle by its VIN
 app.delete('/vehicle/:vin', async (req, res) => {
     const { vin } = req.params;
     try {
