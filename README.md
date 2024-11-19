@@ -27,11 +27,12 @@ Simple web service providing CRUD-style API access to a DBMS.
 3. Set up the PostgreSQL database
 
 4. Update Pool configuration within server.js file to match local database:
+    ```bash
     const pool = new Pool({
-        user: 'your-username',
+        user: 'enter-your-username',
         host: 'localhost',
         database: 'vehicles_db',
-        password: 'your-password',
+        password: 'enter-your-password',
         port: 5432,
     });
 
