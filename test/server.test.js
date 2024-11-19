@@ -1,3 +1,4 @@
+// Importing Required Modules
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../server.js");
@@ -5,6 +6,7 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 
+// Vehicle API Test Suite
 describe("Vehicle API Endpoints", () => {
     // Test GET /vehicle
     describe("GET /vehicle", () => {
@@ -88,9 +90,10 @@ describe("Vehicle API Endpoints", () => {
         });      
 
         it("should return 422 Unprocessable Entity for missing required fields", async () => {
-            const updatedVehicle = {
+          const updatedVehicle = {
                 manufacturer_name: "Toyota",
-            }; // Missing other fields
+                // Intentionally missing several data fields 
+            }; 
             const res = await chai.request(app).put("/vehicle/1HGCM82633A123456").send(updatedVehicle);
             expect(res).to.have.status(422);
             expect(res.body).to.have.property("error", "Missing or invalid fields in the request body.");
