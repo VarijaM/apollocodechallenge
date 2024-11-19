@@ -25,6 +25,20 @@ Simple web service providing CRUD-style API access to a DBMS.
     npm install
 
 3. Set up the PostgreSQL database
+    - Create a new database named vehicles_db
+    - Execute the following SQL code to create the Vehicle table
+    ```bash
+    CREATE TABLE Vehicle (
+        vin VARCHAR(17) PRIMARY KEY,
+        manufacturer_name VARCHAR(100) NOT NULL,
+        description TEXT,
+        horse_power INT,
+        model_name VARCHAR(100) NOT NULL,
+        model_year INT NOT NULL,
+        purchase_price DECIMAL(10, 2) NOT NULL,
+        fuel_type VARCHAR(50) NOT NULL
+    );
+
 
 4. Update Pool configuration within server.js file to match local database:
     ```bash
