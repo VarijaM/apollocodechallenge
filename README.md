@@ -21,6 +21,7 @@ Simple web service providing CRUD-style API access to a DBMS.
    cd apollocodechallenge
 
 2. Install the dependencies:
+    ```bash
     npm install
 
 3. Set up the PostgreSQL database
@@ -35,7 +36,9 @@ Simple web service providing CRUD-style API access to a DBMS.
     });
 
 5. Start the server: 
+    ```bash
     npm start
 
 6. Run the tests: 
+    ```bash
     npm test
