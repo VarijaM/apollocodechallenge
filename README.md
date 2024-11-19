@@ -1,4 +1,4 @@
-# apollocodechallenge
+# Apollo Code Challenge
 Simple web service providing CRUD-style API access to a DBMS.
 
 --
